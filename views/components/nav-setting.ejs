@@ -1,0 +1,14 @@
+<div class="nav-setting">
+  <i class="nav-setting-icon"><img src="/img/menu.png"/></i>
+  <div class="dropdown-menu">
+    <% if(user) { %>
+    <a href="/posts" class="item">个人主页</a>
+    <a href="/postContent" class="item">发表文章</a>
+    <a href="../../routes/signout" class="item">退出登录</a>
+    <% } else{ %>
+
+    <a href="/signin" class="item">登陆</a>
+    <a href="/signup" class="item">注册</a>
+    <% } %>
+  </div>
+</div>

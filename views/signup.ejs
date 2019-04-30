@@ -1,0 +1,41 @@
+<%- include('header')%>
+  <form class="signup" enctype="multipart/form-data" method="POST">
+    
+    <div class="signup-username">
+      <label>用户名</label>
+      <input type="text" placeholder="用户名" name="name">
+    </div>
+    
+    <div class="signup-password">
+      <label>密码</label>
+      <input type="password" placeholder="密码" name="password">
+    </div>
+
+    <div class="signup-repassword">
+      <label>重复密码</label>
+      <input type="password" placeholder="重复密码" name="repassword">
+    </div>
+
+    <div class="signup-gender">
+      <label>性别</label>
+      <select name="gender">
+        <option value="m">男</option>
+        <option value="f">女</option>
+        <option value="x">保密</option>
+      </select>
+    </div>
+
+    <div class="signup-avatar">
+      <label>头像</label>
+      <input type="file" name="avatar">
+    </div>
+
+    <div class="signup-bio">
+      <label>个人简介</label>
+      <textarea rows="5" name="bio"></textarea>
+    </div>
+
+    <input type="submit" value="注册" class="signup-button">
+  </form>
+
+<%- include('footer')%>
