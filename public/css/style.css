@@ -10,16 +10,52 @@ a {
   color: #999;
 }
 
-.button {
-  background-color: #4fc08d !important;
-  color: #fff !important;
+/* -------common style--------- */
+.avatar {
+  display: inline-block;
 }
 
-.avatar {
+.avatar img {
   border-radius: 3px;
   width: 48px;
   height: 48px;
-  float: right;
+  box-shadow: 0px 0px 8px #999;
+}
+
+.signup div label,
+.signin div label,
+.upload-article div label {
+  text-align: center;
+  font-size: 12px;
+  line-height: 20px;
+  display: block;
+  text-align: left;
+}
+
+.signin div input,
+.signup div input,
+.upload-article div input {
+  font-size: 12px;
+  line-height: 22px;
+  width: 370px;
+  margin-bottom: 8px;
+  padding-left: 10px;
+}
+
+.signup-bio textarea, .article-content textarea {
+  width: 380px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button {
+  width: 390px;
+  border: 1px solid #4fc08d;
+  border-radius: 2px;
+  background-color: #4fc08d;
+  font-size: 14px;
+  line-height: 28px;
+  color: white;
+  font-weight: bold;
 }
 
 /* -----------nav--------- */
@@ -84,8 +120,6 @@ a {
   font-size: 12px;
 }
 
-/* -----------posts----------- */
-
 /* --------signup------------- */
 .signup {
   margin: 0 auto;
@@ -96,24 +130,6 @@ a {
   box-shadow: 0px 0px 8px #999;
 }
 
-.signup div {
-}
-.signup div label {
-  text-align: center;
-  font-size: 12px;
-  line-height: 20px;
-  display: block;
-  text-align: left;
-}
-
-.signup div input {
-  font-size: 12px;
-  line-height: 22px;
-  width: 370px;
-  margin-bottom: 8px;
-  padding-left: 10px;
-}
-
 .signup-gender select {
   width: 380px;
   margin-bottom: 8px;
@@ -122,20 +138,7 @@ a {
   padding: 2px 0 5px 6px;
 }
 
-.signup-bio textarea {
-  width: 380px;
-}
 
-.signup-button {
-  width: 390px;
-  border: 1px solid #4fc08d;
-  border-radius: 2px;
-  background-color: #4fc08d;
-  font-size: 14px;
-  line-height: 28px;
-  color: white;
-  font-weight: bold;
-}
 
 /* ------------signin ----------*/
 .signin {
@@ -147,29 +150,62 @@ a {
   box-shadow: 0px 0px 8px #999;
 }
 
-.signin div label {
-  text-align: center;
-  font-size: 12px;
-  line-height: 20px;
-  display: block;
-  text-align: left;
+/* ------------ posts ------------- */
+.posts {
+  width: 730px;
+  margin: 0 auto;
 }
 
-.signin div input {
-  font-size: 12px;
-  line-height: 22px;
-  width: 370px;
-  margin-bottom: 8px;
-  padding-left: 10px;
+.posts-article {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 20px;
+  border: 1px solid #999;
+  border-radius: 3px;
+  width: 600px;
 }
 
-.signin-submit{
-  width: 390px;
-  border: 1px solid #4fc08d;
-  border-radius: 2px;
-  background-color: #4fc08d;
-  font-size: 14px;
-  line-height: 28px;
-  color: white;
-  font-weight: bold;
+.posts-article-title h1 {
+  font-size: 18px;
+  color: #4fc08d;
+  border-bottom: 1px solid #d3d0d0;
+  padding: 0 0 10px 0;
 }
+
+.posts-article-content {
+  color: #4d4d4d;
+  margin: 4px 0;
+  border-bottom: 1px solid #d3d0d0;
+}
+
+.article-footer {
+  padding: 3px 0 0 0;
+}
+.article-footer span {
+  color: rgb(138, 133, 133);
+  font-size: 12px;
+}
+.feedback {
+  float: right;
+}
+
+/* ------ upload article ------ */
+.upload {
+  margin: 0 auto;
+  width: 510px;
+}
+
+.upload-article {
+  vertical-align: top;
+  display: inline-block;
+  margin-left: 10px;
+  padding: 20px;
+  border: 1px solid #999;
+  border-radius: 3px;
+  width: 400px;
+  border: 1px solid #b1b1b1;
+  border-radius: 3px;
+  box-shadow: 0px 0px 8px #999;
+}
+

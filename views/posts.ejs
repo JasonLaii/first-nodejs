@@ -1,3 +1,7 @@
+<!-- 主页 -->
 <%- include('header')%>
-  这是主页
+
+<% posts.forEach(post=>{%>
+  <%- include('components/post-content',{post: post})%>
+  <% }) %>
 <%- include('footer')%>
