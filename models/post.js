@@ -1,26 +1,25 @@
-const Post = require('../lib/mongo').Post
-const marked = require('marked')
+const Post = require("../lib/mongo").Post;
+const marked = require("marked");
 
 //将 markdown 解析成 html
-Post.plugin('contentToHtml',{
-  afterFind: posts =>{
-    return posts.map(post=>{
-      post.content = marked(post.content)
-      return post
-    })
+Post.plugin("contentToHtml", {
+  afterFind: posts => {
+    return posts.map(post => {
+      post.content = marked(post.content);
+      return post;
+    });
   },
-  afterFindOne : post =>{
-    if(post){
-      post.content = marked(post.content)
+  afterFindOne: post => {
+    if (post) {
+      post.content = marked(post.content);
     }
-    return post
+    return post;
   }
-})
+});
 
 module.exports = {
   //上传一篇文章
   uploadArticle: post => {
-
     // create is a method of mongolass.model
     return Post.create(post).exec();
   },
@@ -49,8 +48,23 @@ module.exports = {
       .exec();
   },
 
+  //编辑文章
+  editPost: (postId, updatePost) => {
+    return Post.updateOne({ _id: postId }, {$set: updatePost}).exec();
+  },
+  //更新数据
+  // updatePost: postId=>{
+  //   return Post.updateOne({_id:postId}).exec()
+  // },
+
+  //删除文章
+  delPost: postId => {
+    return Post.deleteOne({ _id: postId })
+      .exec()
+      .then(() => console.log("deleted."));
+  },
+  //浏览量
   incPv: function incPv(postId) {
     return Post.update({ _id: postId }, { $inc: { pv: 1 } }).exec();
   }
 };
-

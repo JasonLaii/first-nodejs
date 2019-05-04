@@ -58,6 +58,26 @@ a {
   font-weight: bold;
 }
 
+.dropdown {
+  display: block;
+  color: #999;
+  border-radius: 3px;
+  box-shadow: 0px 0px 4px rgb(175, 175, 175);
+}
+
+.item {
+  width: 80px;
+  display: block;
+  line-height: 32px;
+  text-align: center;
+  font-size: 14px;
+  background-color: white;
+}
+.item:hover {
+  background-color: rgb(215, 241, 233);
+  color: #4fc08d;
+}
+
 /* -----------nav--------- */
 .nav {
   margin-bottom: 20px;
@@ -88,25 +108,7 @@ a {
   width: 26px;
 }
 
-.dropdown-menu {
-  display: block;
-  /* display: none; */
-  color: #999;
-  border-radius: 3px;
-  box-shadow: 0px 0px 4px rgb(175, 175, 175);
-}
 
-.item {
-  width: 80px;
-  display: block;
-  line-height: 32px;
-  text-align: center;
-  font-size: 14px;
-}
-.item:hover {
-  background-color: rgb(215, 241, 233);
-  color: #4fc08d;
-}
 
 /*----------notification----- */
 .notification {
@@ -115,6 +117,16 @@ a {
   border: 1px solid rgb(144, 226, 178);
   border-radius: 3px;
   color: #2ecc71;
+  text-align: center;
+  line-height: 10px;
+  font-size: 12px;
+}
+.notification-error{
+  width: 300px;
+  margin: 10px auto;
+  border: 1px solid #e74c3c;
+  border-radius: 3px;
+  color: #e74c3c;
   text-align: center;
   line-height: 10px;
   font-size: 12px;
@@ -150,7 +162,7 @@ a {
   box-shadow: 0px 0px 8px #999;
 }
 
-/* ------------ posts ------------- */
+/* ------------ posts-content ------------- */
 .posts {
   width: 730px;
   margin: 0 auto;
@@ -162,8 +174,10 @@ a {
   margin-left: 10px;
   padding: 20px;
   border: 1px solid #999;
+  box-shadow: 1px 1px 4px #ccc;
   border-radius: 3px;
   width: 600px;
+  margin-bottom: 18px;
 }
 
 .posts-article-title h1 {
@@ -181,6 +195,7 @@ a {
 
 .article-footer {
   padding: 3px 0 0 0;
+  position: relative;
 }
 .article-footer span {
   color: rgb(138, 133, 133);
@@ -190,6 +205,20 @@ a {
   float: right;
 }
 
+.article-footer .dropdown{
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  right: -50px;
+  /* z-index: 9999; */
+  background-color: white;
+}
+
+.feedback img{
+  width: 12px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
 /* ------ upload article ------ */
 .upload {
   margin: 0 auto;
@@ -209,3 +238,4 @@ a {
   box-shadow: 0px 0px 8px #999;
 }
 
+/* ------ common ------- */

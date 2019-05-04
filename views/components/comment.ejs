@@ -1,0 +1,24 @@
+<!-- 留言页 -->
+<div class="comment">
+  <div class="comment-title">
+    <p>留言</p>
+  </div>
+  <div>
+    <div class="comment-avatar">
+      <a href=""><img src="" alt="avatar"/></a>
+    </div>
+    <div class="comment-header">
+      <span class="name"><%%></span>
+      <span class="comment-time"><%%></span>
+    </div>
+    <div class="comment-content">
+      <p></p>
+    </div>
+  </div>
+  <% if (user){%>
+  <form method="post" class="leave-word">
+    <textarea name="comment" rows="10"></textarea>
+    <input type="submit" value="留言" />
+  </form>
+  <% } %>
+</div>

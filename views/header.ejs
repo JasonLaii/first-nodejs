@@ -4,10 +4,43 @@
     <title>
       <%= blog.title %>
     </title>
-    <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
 
+    <script>
+
+      window.onload = () => {
+        let navIsShow = false
+        let aPostBtn = document.getElementsByClassName("post-icon");
+        let oNavBtn = document.getElementsByClassName("nav-setting-icon")[0]
+        let aDropdown = document.getElementsByClassName("dropdown");
+        
+        for(let i=0;i<aPostBtn.length;i++){
+          let postIsShow = []
+          postIsShow.push(false)
+          aPostBtn[i].onclick = function(){
+            postIsShow[i] = show(aDropdown[i+1],postIsShow[i])
+          }
+        }
+
+        oNavBtn.onclick = ()=>{
+          navIsShow = show(aDropdown[0],navIsShow)
+        }
+        
+      };
+
+      function show(obj,display) {
+        if(display){
+          obj.style.display = 'none'
+          return display = false
+        }else{
+          obj.style.display = 'block'
+          return display = true
+        }
+      }
+    </script>
   </head>
   <body>
-    <%- include('components/nav')%>
-    <%- include('components/nav-setting')%>
+    <%- include('components/nav')%> 
+    <%- include('components/nav-setting')%> 
     <%- include('components/notification')%>
+

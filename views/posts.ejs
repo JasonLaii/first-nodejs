@@ -1,7 +1,9 @@
 <!-- 主页 -->
-<%- include('header')%>
+<%- include('header')%> 
 
-<% posts.forEach(post=>{%>
-  <%- include('components/post-content',{post: post})%>
-  <% }) %>
+<% posts.forEach( post=>{ %> 
+  <%- include('components/post-content',{post: post})%> 
+<% }) %> 
+<% include('components/comment')%>
+
 <%- include('footer')%>

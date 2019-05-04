@@ -1,54 +1,53 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
+const checkLogin = require("../middlewares/check").checkLogin;
 
-const checkLogin = require('../middlewares/check').checkLogin
+const PostModel = require("../models/post");
 
-const PostModel = require('../models/post')
-
-
-router.get('/',(req,res,next)=>{
+router.get("/", (req, res, next) => {
   // res.render('posts')
-  const author = req.query.author
+  const author = req.query.author;
 
   PostModel.getPosts(author)
-      .then(posts=>{
-        res.render('posts',{
-          posts: posts
-        })
-      }).catch(next)
-})
+    .then(posts => {
+      res.render("posts", {
+        posts: posts
+      });
+    })
+    .catch(next);
+});
 
 //发表文章页
-router.get('/upload-article',checkLogin,(req,res,next)=>{
-  res.render('upload-article')
-})
+router.get("/upload-article", checkLogin, (req, res, next) => {
+  res.render("upload-article");
+});
 
-router.post('/upload-article',checkLogin,(req,res,next)=>{
+router.post("/upload-article", checkLogin, (req, res, next) => {
   // res.send('发表文章')
 
-  const author = req.session.user._id
-  const title = req.fields.title
-  const content = req.fields.content
+  const author = req.session.user._id;
+  const title = req.fields.title;
+  const content = req.fields.content;
 
-  try{
-    if(!title){
-      throw new Error("请输入标题！！")
+  try {
+    if (!title) {
+      throw new Error("请输入标题！！");
     }
-    if(!content){
-      throw new Error("请输入正文！！")
+    if (!content) {
+      throw new Error("请输入正文！！");
     }
-  }catch(e){
-    req.flash('error',e.message)
-    return res.redirect('back')
+  } catch (e) {
+    req.flash("error", e.message);
+    return res.redirect("back");
   }
 
   let post = {
-    author : author,
-    title : title,
-    content : content
-  }
-  
+    author: author,
+    title: title,
+    content: content
+  };
+
   //写入数据库
   PostModel.uploadArticle(post)
     .then(result => {
@@ -59,37 +58,75 @@ router.post('/upload-article',checkLogin,(req,res,next)=>{
       res.redirect(`/posts/${post._id}`);
     })
     .catch(next);
+});
 
-})
+//跳转到文章详情页
+router.get("/:postId", (req, res, next) => {
+  const postId = req.params.postId;
 
-router.get('/:postId',(req,res,next)=>{
-  const postId = req.params.postId
+  Promise.all([PostModel.getPostById(postId), PostModel.incPv(postId)])
+    .then(result => {
+      const post = result[0];
 
-  Promise.all([
-    PostModel.getPostById(postId),
-    PostModel.incPv(postId)
-  ]).then(result=>{
-    const post = result[0]
-
-    if(!post){
-      throw new Error('该文章不存在')
-    }
-    res.render('post-content',{
-      post: post
+      if (!post) {
+        throw new Error("该文章不存在");
+      }
+      res.render("post", {
+        post: post
+      });
     })
-  }).catch(next)
-})
+    .catch(next);
+});
 
-router.get('/:postId/edit',checkLogin,(req,res,next)=>{
-  res.send('更新文章页')
-})
+router.get("/:postId/edit", checkLogin, (req, res, next) => {
+  // res.send("更新文章页");
+  res.render("edit");
+});
 
-router.post('/:postId/edit',checkLogin,(req,res,next)=>{
-  res.send('更新文章')
-})
+router.post("/:postId/edit", checkLogin, (req, res, next) => {
+  // res.send("更新文章");
+  const postId = req.params.postId;
 
-router.get('/:postId/remove',checkLogin,(req,res,next)=>{
-  res.send('删除文章')
-})
+  
+  const title = req.fields.title;
+  const content = req.fields.content;
 
-module.exports = router
+  try {
+    if (!title) {
+      throw new Error("请输入标题");
+    }
+    if (!content) {
+      throw new Error("请输入正文");
+    }
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("back");
+  }
+
+  let updatePost = {
+    author: req.session._id,
+    title: title,
+    content: content
+  };
+
+  PostModel.editPost(postId, updatePost)
+    .then(() => {
+      req.flash("success", "编辑成功");
+      res.redirect("/posts");
+    })
+    .catch(next);
+});
+
+router.get("/:postId/remove", checkLogin, (req, res, next) => {
+  // res.send('删除文章')
+  const postId = req.params.postId;
+
+  PostModel.delPost(postId)
+    .then(() => {
+      req.flash("success", "删除成功");
+      res.redirect("/posts");
+    })
+    .catch(next);
+});
+
+module.exports = router;
