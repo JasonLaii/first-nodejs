@@ -1,7 +1,11 @@
-<!-- 主页 -->
+<!-- 首页 -->
 <%- include('header')%> 
 
 <% posts.forEach( post=>{ %> 
+  <!-- 控制文章长度 -->
+  <% post.content = post.content.replace(/<\/?.+?\/?>/g,'')%>
+  <% post.content = post.content.substring(1,200)%>
+  <% console.log(post.content)%>
   <%- include('components/post-content',{post: post})%> 
 <% }) %> 
 <% include('components/comment')%>

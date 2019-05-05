@@ -179,10 +179,11 @@ a {
   width: 600px;
   margin-bottom: 18px;
 }
-
+.posts-article-title h1 a{
+  color: #4fc08d;
+}
 .posts-article-title h1 {
   font-size: 18px;
-  color: #4fc08d;
   border-bottom: 1px solid #d3d0d0;
   padding: 0 0 10px 0;
 }

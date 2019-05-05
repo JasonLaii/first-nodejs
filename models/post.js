@@ -24,7 +24,7 @@ module.exports = {
     return Post.create(post).exec();
   },
 
-  //??
+
   //通过文章id获取文章
   getPostById: postId => {
     return Post.findOne({ _id: postId })
@@ -32,6 +32,13 @@ module.exports = {
       .addCreatedAt()
       .contentToHtml()
       .exec();
+  },
+
+  //获取不经过markdown解析的内容
+  getRawPostById: postId =>{
+    return Post.findOne({ _id: postId })
+      .populate({path:"author",model:"User"})
+      .exec()
   },
 
   //获取文章
@@ -52,10 +59,6 @@ module.exports = {
   editPost: (postId, updatePost) => {
     return Post.updateOne({ _id: postId }, {$set: updatePost}).exec();
   },
-  //更新数据
-  // updatePost: postId=>{
-  //   return Post.updateOne({_id:postId}).exec()
-  // },
 
   //删除文章
   delPost: postId => {

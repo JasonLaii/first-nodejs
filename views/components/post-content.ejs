@@ -5,7 +5,7 @@
 
   <div class="posts-article">
     <div class="posts-article-title">
-      <h1><%= post.title%></h1>
+      <h1> <a href="/posts/<%= post._id%>"> <%= post.title%></a></h1>
     </div>
 
     <div class="posts-article-content">
@@ -21,8 +21,8 @@
         post.author._id.toString()) { %>
         <img src="/img/down.png" alt="dropdown" class="post-icon"/>
         <ul class="dropdown" style="display:none">
-          <li class="item"><a href="/posts/:<%= post.author._id%>/edit"> 编辑</a></li>
-          <li class="item"><a href="/posts/:<%= post.author._id%>/remove"> 删除</a></li>
+          <li class="item"><a href="/posts/<%= post._id%>/edit"> 编辑</a></li>
+          <li class="item"><a href="/posts/<%= post._id%>/remove"> 删除</a></li>
         </ul>
         <% } %>
       </div>

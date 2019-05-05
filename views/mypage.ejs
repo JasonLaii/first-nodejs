@@ -1,0 +1,8 @@
+<!-- 个人主页 -->
+<%- include('header')%>
+
+<% posts.forEach( post =>{%>
+  <%- include('components/post-content',{post: post})%>
+  <% }) %>
+
+<%- include('footer')%>
