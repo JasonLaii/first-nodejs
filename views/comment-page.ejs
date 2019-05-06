@@ -1,0 +1,26 @@
+<!-- 留言页 -->
+<%- include('header')%>
+
+<!-- 文章内容 -->
+<%- include('components/post-content',{post:post})%>
+
+<!-- 留言 -->
+<div class="comment">
+  <div class="comment-title">
+    <p>留言</p>
+  </div>
+  <% comments.forEach(comment=>{%>
+    <%- include('components/comment',{
+      user:user,comment:comment})%> 
+    <% })%>
+
+  
+  <% if (user){%>
+  <form method="post" class="leave-word">
+    <textarea name="comment" rows="10"></textarea>
+    <input type="submit" value="留言" class="button" />
+  </form>
+  <% } %>
+</div>
+
+<%- include('footer')%>

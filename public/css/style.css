@@ -42,7 +42,9 @@ a {
   padding-left: 10px;
 }
 
-.signup-bio textarea, .article-content textarea {
+.signup-bio textarea,
+.article-content textarea,
+.leave-word textarea {
   width: 380px;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -108,8 +110,6 @@ a {
   width: 26px;
 }
 
-
-
 /*----------notification----- */
 .notification {
   width: 300px;
@@ -121,7 +121,7 @@ a {
   line-height: 10px;
   font-size: 12px;
 }
-.notification-error{
+.notification-error {
   width: 300px;
   margin: 10px auto;
   border: 1px solid #e74c3c;
@@ -150,8 +150,6 @@ a {
   padding: 2px 0 5px 6px;
 }
 
-
-
 /* ------------signin ----------*/
 .signin {
   margin: 0 auto;
@@ -179,7 +177,7 @@ a {
   width: 600px;
   margin-bottom: 18px;
 }
-.posts-article-title h1 a{
+.posts-article-title h1 a {
   color: #4fc08d;
 }
 .posts-article-title h1 {
@@ -206,7 +204,7 @@ a {
   float: right;
 }
 
-.article-footer .dropdown{
+.article-footer .dropdown {
   padding: 0;
   position: absolute;
   top: 20px;
@@ -215,7 +213,7 @@ a {
   background-color: white;
 }
 
-.feedback img{
+.feedback img {
   width: 12px;
   vertical-align: middle;
   margin-left: 8px;
@@ -239,4 +237,60 @@ a {
   box-shadow: 0px 0px 8px #999;
 }
 
-/* ------ common ------- */
+/* ------ comment ------- */
+.comment {
+  margin: 0 auto;
+  width: 386px;
+  border: 1px solid #b1b1b1;
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: 0px 0px 8px #999;
+}
+.comment-title {
+  border-bottom: 1px solid #999;
+  width: 380px;
+}
+.comment-title p {
+  font-size: 20px;
+  margin: 10px 0;
+}
+.comment-info{
+  
+  margin: 16px 0;
+}
+.comment-avatar {
+  float: left;
+}
+.comment-avatar a img {
+  border-radius: 3px;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0px 0px 8px #999;
+}
+.comment-area{
+  /* vertical-align: top; */
+  margin-left: 64px;
+}
+.comment-header{
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 22px;
+  /* vertical-align: top; */
+}
+.comment-time{
+  color: #999;
+  font-size: 12px;
+}
+.comment-content{
+  font-size: 12px;
+}
+.comment-content p {
+  margin: 6px 0;
+}
+.delBtn{
+  font-size: 12px;
+  color: #000000;
+  float: right;
+  font-weight: 400;
+  border-bottom: 1px solid #4fc08d;
+}

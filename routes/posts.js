@@ -4,12 +4,14 @@ const router = express.Router();
 const checkLogin = require("../middlewares/check").checkLogin;
 
 const PostModel = require("../models/post");
+const CommentModel = require("../models/comment");
+// const UserModel = require("../models/uers");
 
 //首页
 router.get("/", (req, res, next) => {
   // res.render('posts')
   const author = req.query.author;
-  console.log(author)
+  console.log(author);
 
   PostModel.getPosts(author)
     .then(posts => {
@@ -20,16 +22,16 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 //个人主页
-router.get('/mypage',checkLogin,(req,res,next)=>{
-  const author = req.session.user._id
-  console.log(author)
+router.get("/mypage", checkLogin, (req, res, next) => {
+  const author = req.session.user._id;
+  console.log(author);
 
   PostModel.getPosts(author)
-    .then(posts=>{
-      res.render('mypage',{posts:posts})
-    }).catch(next)
-
-  })
+    .then(posts => {
+      res.render("mypage", { posts: posts });
+    })
+    .catch(next);
+});
 
 //发表文章页
 router.get("/upload-article", checkLogin, (req, res, next) => {
@@ -93,30 +95,30 @@ router.get("/:postId", (req, res, next) => {
 
 router.get("/:postId/edit", checkLogin, (req, res, next) => {
   // res.send("更新文章页");
-  const postId = req.params.postId
-  const author = req.session.user._id
+  const postId = req.params.postId;
+  const author = req.session.user._id;
 
   PostModel.getRawPostById(postId)
-    .then(post=>{
-      
-      if(!post){
-        throw new Error('文章不存在')
+    .then(post => {
+      if (!post) {
+        throw new Error("文章不存在");
       }
-      if(author.toString() !== post.author._id.toString()){
-        throw new Error('权限不够')
+      if (author.toString() !== post.author._id.toString()) {
+        throw new Error("权限不够");
       }
 
-      res.render('edit',{
+      res.render("edit", {
         post: post
-      })
-    }).catch(next)
+      });
+    })
+    .catch(next);
 });
 
 router.post("/:postId/edit", checkLogin, (req, res, next) => {
   // res.send("更新文章");
   const postId = req.params.postId;
-  const author = req.session.user._id
-  
+  const author = req.session.user._id;
+
   const title = req.fields.title;
   const content = req.fields.content;
 
@@ -132,36 +134,85 @@ router.post("/:postId/edit", checkLogin, (req, res, next) => {
     res.redirect("back");
   }
 
-
-  PostModel.getRawPostById(postId)
-    .then((post)=>{
-      if(!post){
-        throw new Error('文章不存在')
-      }
-      if(post.author._id.toString() !== author.toString()){
-        throw new Error('权限不够')
-      }
-      PostModel.editPost(postId,{title:title,content:content  })
-        .then(()=>{
-          req.flash('success','编辑成功')
-          res.redirect(`/posts/${postId}`)
-        }).catch(next)
-    })
-
+  PostModel.getRawPostById(postId).then(post => {
+    if (!post) {
+      throw new Error("文章不存在");
+    }
+    if (post.author._id.toString() !== author.toString()) {
+      throw new Error("权限不够");
+    }
+    PostModel.editPost(postId, { title: title, content: content })
+      .then(() => {
+        req.flash("success", "编辑成功");
+        res.redirect(`/posts/${postId}`);
+      })
+      .catch(next);
+  });
 });
 
 router.get("/:postId/remove", checkLogin, (req, res, next) => {
   // res.send('删除文章')
   const postId = req.params.postId;
-  const author = req.session.user._id
+  const author = req.session.user._id;
 
   PostModel.delPost(postId)
     .then(post => {
-
       req.flash("success", "删除成功");
       res.redirect("/posts");
     })
     .catch(next);
 });
 
+//留言页
+router.get("/:postId/comment-page", checkLogin, (req, res, next) => {
+  const postId = req.params.postId;
+  const user = req.session.user
+
+  PostModel.getPostById(postId)
+    .then(post => {
+      // res.render("comment-page",{
+      //   post:post,
+      //   user:user
+      // })
+      CommentModel.getComments(postId)
+        .then(comments=>{ 
+          res.render("comment-page",{
+            post: post,
+            user: user,
+            comments: comments
+          });
+
+        })
+  }).catch(next);
+});
+
+//发布评论
+router.post("/:postId/comment-page", checkLogin, (req, res, next) => {
+  const postId = req.params.postId;
+  const commentContent = req.fields.comment;
+  const author = req.session.user._id
+
+  try {
+    if (!commentContent) {
+      throw new Error("请输入评论！");
+    }
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("back");
+  }
+
+  let comment = {
+    post: postId,
+    author: author,
+    commentContent: commentContent
+  };
+
+  CommentModel.leaveComment(comment)
+    .then(result => {
+      comment = result.ops[0];
+      req.flash("success", "留言成功");
+      res.redirect("/posts");
+    })
+    .catch(next);
+});
 module.exports = router;

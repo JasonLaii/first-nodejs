@@ -6,5 +6,5 @@ module.exports = function(server){
   server.use('/signin',require('./signin'))
   server.use('/signout',require('./signout'))
   server.use('/posts',require('./posts'))
-  server.use('/comment',require('./comment'))
+  // server.use('/comment',require('./comment'))
 }
