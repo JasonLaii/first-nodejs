@@ -5,7 +5,6 @@ const checkLogin = require("../middlewares/check").checkLogin;
 
 const PostModel = require("../models/post");
 const CommentModel = require("../models/comment");
-// const UserModel = require("../models/uers");
 
 //首页
 router.get("/", (req, res, next) => {
@@ -163,56 +162,5 @@ router.get("/:postId/remove", checkLogin, (req, res, next) => {
     .catch(next);
 });
 
-//留言页
-router.get("/:postId/comment-page", checkLogin, (req, res, next) => {
-  const postId = req.params.postId;
-  const user = req.session.user
 
-  PostModel.getPostById(postId)
-    .then(post => {
-      // res.render("comment-page",{
-      //   post:post,
-      //   user:user
-      // })
-      CommentModel.getComments(postId)
-        .then(comments=>{ 
-          res.render("comment-page",{
-            post: post,
-            user: user,
-            comments: comments
-          });
-
-        })
-  }).catch(next);
-});
-
-//发布评论
-router.post("/:postId/comment-page", checkLogin, (req, res, next) => {
-  const postId = req.params.postId;
-  const commentContent = req.fields.comment;
-  const author = req.session.user._id
-
-  try {
-    if (!commentContent) {
-      throw new Error("请输入评论！");
-    }
-  } catch (e) {
-    req.flash("error", e.message);
-    res.redirect("back");
-  }
-
-  let comment = {
-    post: postId,
-    author: author,
-    commentContent: commentContent
-  };
-
-  CommentModel.leaveComment(comment)
-    .then(result => {
-      comment = result.ops[0];
-      req.flash("success", "留言成功");
-      res.redirect("/posts");
-    })
-    .catch(next);
-});
 module.exports = router;

@@ -9,12 +9,12 @@
         <span class="comment-time"><%= comment.created_at%></span>
         <!-- 删除按钮 -->
         <!-- 判断是否为发表评论的用户本人 -->
-        <a href="" class="delBtn"><span>删除</span></a>
+        <a href="/comment/<%= comment._id%>/remove" class="delBtn"><span>删除</span></a>
 
       </div>
 
       <div class="comment-content">
-        <p><%= comment.commentContent%>></p>
+        <p><%= comment.commentContent%></p>
       </div>
     </div>
   </div>
