@@ -3,7 +3,6 @@ const Post = require('../lib/mongo').Post
 
 module.exports = {
 
-
   // 留下评论
   leaveComment: comment =>{
     return Comment.create(comment)
@@ -17,14 +16,31 @@ module.exports = {
       .exec()
   },
   //获取文章信息
-  getPostbyCommentId: commentId =>{
-    return Post.findOne({_id: commentId})
-      .exec()
+  getCommentbyCommentId: commentId =>{
+    return Comment.findOne({_id: commentId}).exec()
   },
+
   //删除留言
   delComment: commentId=>{
     return Comment.deleteOne({_id: commentId}).exec()
+  },
 
+  //通过文章id获取留言数
+  getCommentsCount: postId=>{
+    // let count = Comment.count({post: postId}).exec()
+    // console.log(count);
+    return Comment.count({post: postId}).exec()
+  },
+  
+  //删除一篇文章下的所有留言
+  delComments: postId=>{
+    Comment.find({postId: postId}
+      ).forEach(comment=>{
+        Comment.deleteOne({_id: comment._id})
+    })
+  },
+  delComments : postId =>{
+    return Comment.deleteMany({post: postId}).exec()
   }
 
 }

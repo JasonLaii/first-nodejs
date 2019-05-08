@@ -38,14 +38,18 @@ router.post("/:postId", checkLogin, (req, res, next) => {
     author: author,
     commentContent: commentContent
   };
+
+
   //写入数据库
   CommentModel.leaveComment(comment)
     .then(result => {
       comment = result.ops[0];
+
       req.flash("success", "留言成功");
-      res.redirect(`/comment/${post}`);
+      res.redirect(`/posts`);
     })
     .catch(next);
+
 });
 
 //删除留言
@@ -54,16 +58,13 @@ router.post("/:postId", checkLogin, (req, res, next) => {
 router.get("/:commentId/remove", checkLogin, (req, res, next) => {
 
   const commentId = req.params.commentId
-  console.log(commentId);
 
-  CommentModel.getPostbyCommentId(commentId)
-    .then(post=>{
       CommentModel.delComment(commentId)
         .then(() =>{
           req.flash('success','删除成功')
-          res.redirect(`/${post._id}/comment-page`);
+          res.redirect('back');
         })
-    })
+
 });
 
 module.exports = router;

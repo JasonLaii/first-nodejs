@@ -1,6 +1,8 @@
 const Post = require("../lib/mongo").Post;
 const marked = require("marked");
 
+const CommentModel = require('./comment')
+
 //将 markdown 解析成 html
 Post.plugin("contentToHtml", {
   afterFind: posts => {
@@ -17,6 +19,32 @@ Post.plugin("contentToHtml", {
   }
 });
 
+//给post 添加留言数
+Post.plugin("addCommentCount",{
+  afterFind: posts=>{
+    return Promise.all(posts.map(post=>{
+      return CommentModel.getCommentsCount(post._id)
+        .then(commentCount=>{
+          // console.log(commentCount)
+          post.commentCount = commentCount
+          return post
+        })
+    }))
+  },
+  afterFindOne: post=>{
+    if(post){
+      return CommentModel.getCommentsCount(post._id)
+        .then(commentCount =>{
+          // console.log(commentCount)
+          post.commentCount = commentCount
+          return post
+        })
+    }
+  }
+})
+
+
+
 module.exports = {
   //上传一篇文章
   uploadArticle: post => {
@@ -30,6 +58,7 @@ module.exports = {
     return Post.findOne({ _id: postId })
       .populate({ path: "author", model: "User" })
       .addCreatedAt()
+      .addCommentCount()
       .contentToHtml()
       .exec();
   },
@@ -51,6 +80,7 @@ module.exports = {
       .populate({ path: "author", model: "User" })
       .sort({ _id: -1 })
       .addCreatedAt()
+      .addCommentCount()
       .contentToHtml()
       .exec();
   },

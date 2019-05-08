@@ -10,20 +10,22 @@ const CommentModel = require("../models/comment");
 router.get("/", (req, res, next) => {
   // res.render('posts')
   const author = req.query.author;
-  console.log(author);
-
+  // console.log(author);
+  
   PostModel.getPosts(author)
     .then(posts => {
-      res.render("posts", {
-        posts: posts
-      });
+          // console.log(posts)
+          res.render("posts", {
+            posts: posts
+          });
+
     })
     .catch(next);
 });
 //个人主页
 router.get("/mypage", checkLogin, (req, res, next) => {
   const author = req.session.user._id;
-  console.log(author);
+  // console.log(author);
 
   PostModel.getPosts(author)
     .then(posts => {
@@ -78,15 +80,20 @@ router.post("/upload-article", checkLogin, (req, res, next) => {
 router.get("/:postId", (req, res, next) => {
   const postId = req.params.postId;
 
-  Promise.all([PostModel.getPostById(postId), PostModel.incPv(postId)])
+  Promise.all([
+    PostModel.getPostById(postId), 
+    PostModel.incPv(postId),
+    CommentModel.getComments(postId)])
     .then(result => {
       const post = result[0];
+      const comments = result[1]
 
       if (!post) {
         throw new Error("该文章不存在");
       }
       res.render("post", {
-        post: post
+        post: post,
+        comments: comments
       });
     })
     .catch(next);
@@ -156,8 +163,13 @@ router.get("/:postId/remove", checkLogin, (req, res, next) => {
 
   PostModel.delPost(postId)
     .then(post => {
-      req.flash("success", "删除成功");
-      res.redirect("/posts");
+      //删除文章后删除所有评论
+      CommentModel.delComments(post._id)
+        .then(()=>{
+          req.flash("success", "删除成功");
+          res.redirect("/posts");
+
+        })
     })
     .catch(next);
 });

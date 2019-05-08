@@ -16,7 +16,7 @@
       <span><%= post.created_at%></span>
       <div class="feedback">
         <span>浏览(<%= post.pv%>)</span>
-        <span><a href="/comment/<%= post._id%>">留言(3) </a></span>
+        <span><a href="/comment/<%= post._id%>">留言(<%= post.commentCount || 0%>)  </a></span>
         <% if(user && post.author._id && user._id.toString() ===
         post.author._id.toString()) { %>
         <img src="/img/down.png" alt="dropdown" class="post-icon"/>
