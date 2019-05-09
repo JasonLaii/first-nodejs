@@ -96,8 +96,10 @@ module.exports = {
       .exec()
       .then(() => console.log("deleted."));
   },
+
   //浏览量
   incPv: function incPv(postId) {
+    
     return Post.update({ _id: postId }, { $inc: { pv: 1 } }).exec();
   }
 };

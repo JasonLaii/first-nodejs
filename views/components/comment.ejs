@@ -1,16 +1,17 @@
   <!-- 留言模板 -->
   <div class="comment-info">
     <div class="comment-avatar">
-      <a href=""><img src="/img/<%= user.avatar%>" alt="avatar"/></a>
+      <a href=""><img src="/img/<%= comment.author.avatar%>" alt="avatar"/></a>
     </div>
     <div class="comment-area">
       <div class="comment-header">
-        <span class="name"><%= user.name%></span>
+        <span class="name"><%= comment.author.name%></span>
         <span class="comment-time"><%= comment.created_at%></span>
         <!-- 删除按钮 -->
         <!-- 判断是否为发表评论的用户本人 -->
+        <%if(user._id.toString() === comment.author._id.toString()){%>
         <a href="/comment/<%= comment._id%>/remove" class="delBtn"><span>删除</span></a>
-
+          <% } %>
       </div>
 
       <div class="comment-content">

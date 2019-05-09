@@ -10,9 +10,13 @@
     <p>留言</p>
   </div>
 
+  <% let index = -1%>
   <% comments.forEach(comment=>{%>
+
+    <% comment.index = index + 1 %>
     <%- include('components/comment',{
-      user:user,comment:comment})%> 
+      avatar:arrAvatar[comment.index],
+      comment:comment})%> 
     <% })%>
 
   

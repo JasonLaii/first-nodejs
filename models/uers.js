@@ -9,5 +9,8 @@ module.exports = {
   //获取用户信息
   getUserInfo: name=>{
     return User.findOne({name : name}).addCreatedAt().exec()
+  },
+  getUserById: userId =>{
+    return User.findOne({_id: userId}).exec();
   }
 }

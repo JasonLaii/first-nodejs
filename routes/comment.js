@@ -4,19 +4,28 @@ const router = express.Router();
 const checkLogin = require("../middlewares/check").checkLogin;
 const CommentModel = require('../models/comment')
 const PostModel = require('../models/post')
+const UserModel = require('../models/uers')
 
 //评论页
 router.get("/:postId",(req,res,next)=>{
   // res.send("评论页")
   const postId = req.params.postId
+  let arrAvatar = []
+  
   PostModel.getPostById(postId)
     .then(post=>{
       CommentModel.getComments(postId)
-        .then(comments=>{
-          res.render("comment-page",{
-            post: post,comments: comments})
+      .then(comments=>{
+        
+            res.render("comment-page",{
+              post: post,
+              comments: comments,
+              arrAvatar: arrAvatar})
+
+              console.log(comments)
         })
     }).catch(next)
+
 })
 
 //发表评论
@@ -39,7 +48,6 @@ router.post("/:postId", checkLogin, (req, res, next) => {
     commentContent: commentContent
   };
 
-
   //写入数据库
   CommentModel.leaveComment(comment)
     .then(result => {
@@ -49,7 +57,6 @@ router.post("/:postId", checkLogin, (req, res, next) => {
       res.redirect(`/posts`);
     })
     .catch(next);
-
 });
 
 //删除留言

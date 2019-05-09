@@ -12,6 +12,8 @@ module.exports = {
   getComments: postId =>{
 
     return Comment.find({post: postId})
+    //populate....
+      .populate({path: 'author',model:'User'})
       .addCreatedAt()
       .exec()
   },
