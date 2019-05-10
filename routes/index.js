@@ -7,4 +7,9 @@ module.exports = function(server){
   server.use('/signout',require('./signout'))
   server.use('/posts',require('./posts'))
   server.use('/comment',require('./comment'))
+  server.use((req,res)=>{
+    if(!res.headersSent){
+      res.status(404).render('404')
+    }
+  })
 }

@@ -32,6 +32,7 @@ router.post('/',checkNotLogin,(req,res,next)=>{
       throw new Error('两次输入的密码不一致')
     }
     if(!req.files.avatar){
+      console.log(req.files.avatar)
       throw new Error('缺少头像')
     }
     if(password.length <  6){
@@ -41,8 +42,12 @@ router.post('/',checkNotLogin,(req,res,next)=>{
       throw new Error('个人简介限制在1-30个字符内')
     }
   }catch(e){
+    //error
     //注册失败，异步删除上传的头像
-    fs.unlink(req.files.avatar.path)
+    fs.unlink(req.files.avatar.path,(err)=>{
+      if(err) throw err
+      console.log('successfully asynchronous delete avatar.')
+    })
     req.flash('error',e.message)
     return res.redirect('/signup')
   }
@@ -74,7 +79,10 @@ router.post('/',checkNotLogin,(req,res,next)=>{
     })
     .catch(function(e){
       //注册失败，异步删除上传的头像
-      fs.unlink(req.fields.avatar.path)
+      fs.unlink(req.files.avatar.path,(err)=>{
+        if(err)  throw err
+      })
+
       //用户名被占用跳回注册页
       if(e.message.match('duplicate key')){
         req.flash('error','用户名已被占用')

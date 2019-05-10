@@ -5,7 +5,11 @@ const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 const config = require('config-lite')(__dirname)
 const routes = require('./routes')
+//?
 const package = require('./package')
+
+const winston = require('winston')
+const expressWinston = require('express-winston')
 
 const server = express()
 
@@ -57,9 +61,54 @@ server.use((req,res,next)=>{
   next()  
 })
 
+//正常请求日志
+server.use(expressWinston.logger({
+  transports: [
+    new (winston.transports.Console)({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/success.log'
+    })
+  ]
+}))
+
+//记录正常请求日志文件要放在routes(server)之前
+//错误请求日志要放在routes(server)之后
+
 //路由
 routes(server)
 
-server.listen(config.port,()=>{
-  console.log(`${package.name} listening on port ${config.port}`)
+//错误请求日志
+server.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.log'
+    })
+  ]
+}))
+
+
+//将错误信息显示在通知面板
+server.use((err,req,res,next)=>{
+  console.log(err)
+  req.flash('error',err.message)
+  res.redirect('/posts')
 })
+
+
+if(module.parent){
+  //被 require 导出 server
+  module.exports = server
+}else{
+  //监听端口，启动程序
+  server.listen(config.port,()=>{
+    console.log(`${package.name} listening on port ${config.port}`)
+  })
+
+}
