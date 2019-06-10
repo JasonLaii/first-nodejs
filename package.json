@@ -4,7 +4,6 @@
   "description": "nodejs+express",
   "main": "index.js",
   "scripts": {
-
     "test": "mocha"
   },
   "repository": {
@@ -35,6 +34,7 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0",
+    "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
   }
